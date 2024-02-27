@@ -1,7 +1,6 @@
 #include "raylib.h"
 #include "header.h"
-int main()
-{
+int main() {
     const int screenWidth = 1100;
     const int screenHeight = 800;
 
@@ -12,7 +11,7 @@ int main()
 
     Texture2D background = LoadTexture("sources/menuWindow/2024-02-25 18.51.31.png");
 
-    // Load your music file
+    // Load music file
     Music backgroundMusic = LoadMusicStream("sources/menuWindow/musicMenu.wav");
     SetMusicVolume(backgroundMusic, 1.0f);
     PlayMusicStream(backgroundMusic);
@@ -61,8 +60,8 @@ int main()
     UnloadImage(infoImage);
 
     // Load a TTF font
-    Font gameFont = LoadFont("/Users/lyubavaharenko/Downloads/ringbearer/RINGM___.TTF");  // Replace with the path to your TTF font file
-    SetTextureFilter(gameFont.texture, TEXTURE_FILTER_POINT);  // Optional: Set texture filter
+    Font gameFont = LoadFont("/Users/lyubavaharenko/Downloads/ringbearer/RINGM___.TTF"); 
+    SetTextureFilter(gameFont.texture, TEXTURE_FILTER_POINT);  
 
     SetTargetFPS(60);
 
@@ -155,8 +154,8 @@ int main()
         {
             howToPlayTableVisible = false;
             infoTableVisible = false;
-            closeButtonTableClicked = false; // Reset the flag
-            howToPlayButtonClicked = false; // Reset the click state
+            closeButtonTableClicked = false; 
+            howToPlayButtonClicked = false; 
         }
 
         // Draw
@@ -211,71 +210,63 @@ int main()
             DrawTexture(soundOffTexture, soundButton.x + (soundButton.width - soundOffTexture.width) / 2, soundButton.y + (soundButton.height - soundOffTexture.height) / 2, WHITE);
         }
         // Draw pop-up tables
-// Draw pop-up tables
-if (howToPlayTableVisible)
-{
-    DrawRectangle(100, 100, screenWidth - 200, screenHeight - 170, customColor);
-    DrawCloseButton(closeButtonTable, closeButtonTableClicked);
+        if (howToPlayTableVisible) {
+            DrawRectangle(100, 100, screenWidth - 200, screenHeight - 170, customColor);
+            DrawCloseButton(closeButtonTable, closeButtonTableClicked);
 
-    // Draw the main text block
-    const char *mainText = "A knight, driven by love and duty, sets out on a perilous quest to rescue a princess imprisoned by a wicked sorcerer. The sorcerer scatters fragments of a mystical key across the state, each guarded by cryptic riddles. The fate of the realm rests on the adventurer's shoulders as they unravel mysteries and answer the call to heroism.";
-    DrawWrappedText(mainText, 120, 150, 20, screenWidth - 240, WHITE);
+            // Draw the main text block
+            const char *mainText = "A knight, driven by love and duty, sets out on a perilous quest to rescue a princess imprisoned by a wicked sorcerer. The sorcerer scatters fragments of a mystical key across the state, each guarded by cryptic riddles. The fate of the realm rests on the adventurer's shoulders as they unravel mysteries and answer the call to heroism.";
+            DrawWrappedText(mainText, 120, 150, 20, screenWidth - 240, WHITE);
 
-    // Draw 7 lines of text in the first column
-    const char *textLines[] = {
-        "== Movement Controls ==",
-        "Key  W  : Move Forward",
-        "Key  S  : Move Backward",
-        "Key  A  : Move Left",
-        "Key  D  : Move Right",
-        "Key  F  : Interact with chests and the castle",
-        "Explore the game world using these keys. Have a great adventure!"
-    };
+            // Draw 7 lines of text in the first column
+            const char *textLines[] = {
+            "== Movement Controls ==",
+            "Key  W  : Move Forward",
+            "Key  S  : Move Backward",
+            "Key  A  : Move Left",
+            "Key  D  : Move Right",
+            "Key  F  : Interact with chests and the castle",
+            "Explore the game world using these keys. Have a great adventure!"
+            };
 
-    int imageHeight = 20;
-    int spacing = 40;
-    int startXImages = 120;
+            int imageHeight = 20;
+            int spacing = 40;
+            int startXImages = 120;
 
-    for (int i = 0; i < 7; i++)
-    {
-        // Calculate indentation for centering the first line
-        int indentation = (i == 0) ? (screenWidth - 240 - MeasureText(textLines[0], 18)) / 2 : 0;
+            for (int i = 0; i < 7; i++) {
+            // Calculate indentation for centering the first line
+            int indentation = (i == 0) ? (screenWidth - 240 - MeasureText(textLines[0], 18)) / 2 : 0;
+            DrawText(textLines[i], startXImages + indentation, 300 + (imageHeight + spacing) * i, 18, WHITE);
+            }
+        }   
 
-        DrawText(textLines[i], startXImages + indentation, 300 + (imageHeight + spacing) * i, 18, WHITE);
-    }
-}
+        if (infoTableVisible) {
+            DrawRectangle(100, 100, screenWidth - 200, screenHeight - 200, customColor);
 
-    if (infoTableVisible)
-    {
-        DrawRectangle(100, 100, screenWidth - 200, screenHeight - 200, customColor);
-        
-        // Draw 'X' button inside the table
-        DrawCloseButton(closeButtonTable, closeButtonTableClicked);
+            // Draw 'X' button inside the table
+            DrawCloseButton(closeButtonTable, closeButtonTableClicked);
 
-        // Draw title in the center with indentation
-        const char *infoTitle = "Our Team";
-        int titleWidth = MeasureText(infoTitle, 20);
-        int titleX = 120 + (screenWidth - 200 - titleWidth) / 2;
-        DrawText(infoTitle, titleX, 120, 20, WHITE);
+            // Draw title in the center with indentation
+            const char *infoTitle = "Our Team";
+            int titleWidth = MeasureText(infoTitle, 20);
+            int titleX = 120 + (screenWidth - 200 - titleWidth) / 2;
+            DrawText(infoTitle, titleX, 120, 20, WHITE);
 
-        // Draw 5 lines of text in the table
-        const char *infoLines[] = {
-            "0",
-            "1",
-            "2",
-            "3",
-        };
+            const char *infoLines[] = {
+                "0",
+                "1",
+                "2",
+                "3",
+            };
 
-        int infoHeight = 20;
-        int infoSpacing = 25;
-        int startInfoY = 160;
+            int infoHeight = 20;
+            int infoSpacing = 25;
+            int startInfoY = 160;
 
-        for (int i = 0; i < 4; i++)
-        {
-            DrawText(infoLines[i], 120, startInfoY + (infoHeight + infoSpacing) * i, 20, WHITE);
+            for (int i = 0; i < 4; i++) {
+                DrawText(infoLines[i], 120, startInfoY + (infoHeight + infoSpacing) * i, 20, WHITE);
+            }
         }
-    }
-
         EndDrawing();
     }
 
