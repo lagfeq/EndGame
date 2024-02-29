@@ -433,6 +433,8 @@ void InitGameWindow()
         // Draw character
         DrawRectangle(player.position.x, player.position.y, 40, 40, player.color);
 
+        DrawMenuButton(screenWidth, &currentMapIndex);
+
         EndDrawing();
     }
     UnloadTexture(chestTexture);
@@ -447,4 +449,3 @@ void InitGameWindow()
     CloseAudioDevice();
     CloseWindow();
 }
-

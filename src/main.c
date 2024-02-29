@@ -1,5 +1,9 @@
 #include "raylib.h"
 #include "header.h"
+typedef enum {
+    MAIN_MENU,
+    GAME,
+} GameState;
 int main() {
     const int screenWidth = 1100;
     const int screenHeight = 800;
@@ -60,7 +64,7 @@ int main() {
     UnloadImage(infoImage);
 
     // Load a TTF font
-    Font gameFont = LoadFont("sources/menuWindow/RINGM___.TTF"); 
+    Font gameFont = LoadFont("sources/RINGM___.TTF"); 
     SetTextureFilter(gameFont.texture, TEXTURE_FILTER_POINT);  
 
     SetTargetFPS(60);
