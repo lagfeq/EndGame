@@ -4,6 +4,7 @@
 #define MAX_LINES 100
 #define MAX_LINE_LENGTH 1024
 
+
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdlib.h>

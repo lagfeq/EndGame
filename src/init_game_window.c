@@ -447,3 +447,4 @@ void InitGameWindow()
     CloseAudioDevice();
     CloseWindow();
 }
+

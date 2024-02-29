@@ -60,7 +60,7 @@ int main() {
     UnloadImage(infoImage);
 
     // Load a TTF font
-    Font gameFont = LoadFont("/Users/lyubavaharenko/Downloads/ringbearer/RINGM___.TTF"); 
+    Font gameFont = LoadFont("sources/menuWindow/RINGM___.TTF"); 
     SetTextureFilter(gameFont.texture, TEXTURE_FILTER_POINT);  
 
     SetTargetFPS(60);
