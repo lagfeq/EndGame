@@ -67,7 +67,7 @@ void InitGameWindow()
         chests[i].position.x += chests[i].texture.width;
         chests[i].position.y += chests[i].texture.height;
     }
-    Object fortress = {{700, 20}, fortressTexture, true};
+    Object fortress = {{750, 100}, fortressTexture, true};
     fortress.texture.width *= 2.0f;
     fortress.texture.height *= 2.0f;
     fortress.position.x -= fortress.texture.width / 4;
