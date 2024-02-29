@@ -1,11 +1,13 @@
 #include "raylib.h"
 #include "header.h"
 #include "raymath.h"
-typedef struct {
+ 
+typedef struct
+{
     Vector2 position;
     Rectangle bounds;
     float speed;
-    Color color;
+    Texture2D texture;
 } Character;
 
 typedef struct {
@@ -37,6 +39,13 @@ void InitGameWindow() {
     Texture2D objectTexture2 = LoadTexture("sources/tree2.png");
     Texture2D objectTexture3 = LoadTexture("sources/tree3.png");
     Texture2D additionalObjectTexture = LoadTexture("sources/main_tree.png");
+
+    static int direction = 0;
+    static int frameIndex = 0;
+    Texture2D walkFrames0 = LoadTexture("sources/up.png");
+    Texture2D walkFrames1 = LoadTexture("sources/down.png");
+    Texture2D walkFrames2 = LoadTexture("sources/left.png");
+    Texture2D walkFrames3 = LoadTexture("sources/right.png");
 
     Rectangle exitButton = {screenWidth - 100, 10, 90, 30};
     bool exitButtonClicked = false;
@@ -117,10 +126,9 @@ void InitGameWindow() {
     }
 
     // Initialize character
-    Character player;
-    player.position = (Vector2){screenWidth / 2, screenHeight / 2};
-    player.speed = 5.0f;
-    player.color = GREEN;
+     Character player;
+        player.position = (Vector2){screenWidth / 2, screenHeight / 2};
+        player.speed = 5.0f;
 
     SetTargetFPS(60);
 
@@ -128,7 +136,15 @@ void InitGameWindow() {
 
     // Main game loop
     while (!WindowShouldClose()) {
-        player.bounds = (Rectangle){player.position.x, player.position.y, 40, 40};
+       player.bounds = (Rectangle){player.position.x, player.position.y, 40, 40};
+       if (IsKeyDown(KEY_W)) direction = 0;
+       else if (IsKeyDown(KEY_S)) direction = 1;
+       else if (IsKeyDown(KEY_A)) direction = 2;
+       else if (IsKeyDown(KEY_D)) direction = 3;
+
+       frameIndex++;
+       if (frameIndex >= 4) frameIndex = 0;
+
         if (currentMapIndex == 0) {
             // Movement logic for map 0
             if (IsKeyDown(KEY_W) && player.position.y > 0) {
@@ -367,10 +383,30 @@ void InitGameWindow() {
             DrawTexture(maps[currentMapIndex].additionalObject.texture, maps[currentMapIndex].additionalObject.position.x, maps[currentMapIndex].additionalObject.position.y, WHITE);
         }
         // Draw character
-        DrawRectangle(player.position.x, player.position.y, 40, 40, player.color);
+        switch (direction) {
+            case 0: // Up
+                DrawTexture(walkFrames0, player.position.x, player.position.y, WHITE);
+                break;
+            case 1: // Down
+                DrawTexture(walkFrames1, player.position.x, player.position.y, WHITE);
+                break;
+            case 2: // Left
+                DrawTexture(walkFrames2, player.position.x, player.position.y, WHITE);
+                break;
+            case 3: // Right
+                DrawTexture(walkFrames3, player.position.x, player.position.y, WHITE);
+                break;
+            default:
+                break;
+        }
+
         DrawExitButton(exitButton, exitButtonClicked);
         EndDrawing();
     }
+    UnloadTexture(walkFrames0);
+    UnloadTexture(walkFrames1);
+    UnloadTexture(walkFrames2);
+    UnloadTexture(walkFrames3);
     UnloadTexture(chestTexture);
     UnloadTexture(objectTexture1);
     UnloadTexture(objectTexture2);
