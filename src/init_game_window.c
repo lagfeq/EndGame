@@ -1,24 +1,20 @@
 #include "raylib.h"
 #include "header.h"
 #include "raymath.h"
-
-typedef struct
-{
+typedef struct {
     Vector2 position;
     Rectangle bounds;
     float speed;
     Color color;
 } Character;
 
-typedef struct
-{
+typedef struct {
     Vector2 position;
     Texture2D texture;
     bool active;
 } Object;
 
-typedef struct
-{
+typedef struct {
     Texture2D background;
     Object chest;
     Object object1;
@@ -27,8 +23,7 @@ typedef struct
     Object additionalObject;
 } GameMap;
 
-void InitGameWindow()
-{
+void InitGameWindow() {
     const int screenWidth = 1100;
     const int screenHeight = 800;
 
@@ -42,6 +37,9 @@ void InitGameWindow()
     Texture2D objectTexture2 = LoadTexture("sources/tree2.png");
     Texture2D objectTexture3 = LoadTexture("sources/tree3.png");
     Texture2D additionalObjectTexture = LoadTexture("sources/main_tree.png");
+
+    Rectangle exitButton = {screenWidth - 100, 10, 90, 30};
+    bool exitButtonClicked = false;
 
     float scale = 5.0f;
     objectTexture1.width *= scale;
@@ -59,8 +57,7 @@ void InitGameWindow()
         {{screenWidth - 200, 100}, chestTexture, true},
         {{100, screenHeight - 200}, chestTexture, true},
         {{screenWidth - 200, screenHeight - 200}, chestTexture, true}};
-    for (int i = 0; i < 4; i++)
-    {
+    for (int i = 0; i < 4; i++) {
 
         chests[i].texture.width /= 3;
         chests[i].texture.height /= 3;
@@ -109,8 +106,7 @@ void InitGameWindow()
     maps[1].additionalObject.texture = additionalObjectTexture;
     maps[1].additionalObject.active = true;
 
-    for (int i = 0; i < 3; i++)
-    {
+    for (int i = 0; i < 3; i++) {
         // Adjust position to center
         maps[0].object1.position.x -= maps[0].object1.texture.width / 2;
         maps[0].object1.position.y -= maps[0].object1.texture.height / 2;
@@ -131,182 +127,141 @@ void InitGameWindow()
     int currentMapIndex = 0;
 
     // Main game loop
-    while (!WindowShouldClose())
-    {
+    while (!WindowShouldClose()) {
         player.bounds = (Rectangle){player.position.x, player.position.y, 40, 40};
-        if (currentMapIndex == 0)
-        {
+        if (currentMapIndex == 0) {
             // Movement logic for map 0
-            if (IsKeyDown(KEY_W) && player.position.y > 0)
-            {
+            if (IsKeyDown(KEY_W) && player.position.y > 0) {
                 player.position.y -= player.speed;
-                if (player.position.y <= 0)
-                {
+                if (player.position.y <= 0) {
                     currentMapIndex = 2;
                     player.position.y = screenHeight - 40;
                 }
             }
-            if (IsKeyDown(KEY_S) && player.position.y < screenHeight - 40)
-            {
+            if (IsKeyDown(KEY_S) && player.position.y < screenHeight - 40) {
                 player.position.y += player.speed;
             }
-            if (IsKeyDown(KEY_A) && player.position.x > 0)
-            {
+            if (IsKeyDown(KEY_A) && player.position.x > 0) {
                 player.position.x -= player.speed;
             }
-            if (IsKeyDown(KEY_D) && player.position.x < screenWidth - 40)
-            {
+            if (IsKeyDown(KEY_D) && player.position.x < screenWidth - 40) {
                 player.position.x += player.speed;
-                if (player.position.x >= screenWidth - 40)
-                {
+                if (player.position.x >= screenWidth - 40) {
                     currentMapIndex = 1;
                     player.position.x = 0;
                 }
             }
         }
-        else if (currentMapIndex == 1)
-        {
+        else if (currentMapIndex == 1) {
             // Movement logic for map 1
-            if (IsKeyDown(KEY_W) && player.position.y > 0)
-            {
+            if (IsKeyDown(KEY_W) && player.position.y > 0) {
                 player.position.y -= player.speed;
-                if (player.position.y <= 0)
-                {
+                if (player.position.y <= 0) {
                     currentMapIndex = 3;
                     player.position.y = screenHeight - 40;
                 }
             }
-            if (IsKeyDown(KEY_S) && player.position.y < screenHeight - 40)
-            {
+            if (IsKeyDown(KEY_S) && player.position.y < screenHeight - 40) {
                 player.position.y += player.speed;
             }
-            if (IsKeyDown(KEY_A) && player.position.x > 0)
-            {
+            if (IsKeyDown(KEY_A) && player.position.x > 0) {
                 player.position.x -= player.speed;
-                if (player.position.x <= 0)
-                {
+                if (player.position.x <= 0) {
                     currentMapIndex = 0;
                     player.position.x = screenWidth - 40;
                 }
             }
-            if (IsKeyDown(KEY_D) && player.position.x < screenWidth - 40)
-            {
+            if (IsKeyDown(KEY_D) && player.position.x < screenWidth - 40) {
                 player.position.x += player.speed;
             }
         }
-        else if (currentMapIndex == 2)
-        {
+        else if (currentMapIndex == 2) {
             // Movement logic for map 2
-            if (IsKeyDown(KEY_W) && player.position.y > 0)
-            {
+            if (IsKeyDown(KEY_W) && player.position.y > 0) {
                 player.position.y -= player.speed;
-                if (player.position.y <= 0)
-                {
+                if (player.position.y <= 0) {
                     player.position.y = 0;
                 }
             }
-            if (IsKeyDown(KEY_S) && player.position.y < screenHeight - 40)
-            {
+            if (IsKeyDown(KEY_S) && player.position.y < screenHeight - 40) {
                 player.position.y += player.speed;
-                if (player.position.y >= screenHeight - 40)
-                {
+                if (player.position.y >= screenHeight - 40) {
                     currentMapIndex = 0;
                     player.position.y = 0;
                 }
             }
-            if (IsKeyDown(KEY_A) && player.position.x > 0)
-            {
+            if (IsKeyDown(KEY_A) && player.position.x > 0) {
                 player.position.x -= player.speed;
-                if (player.position.x <= 0)
-                {
+                if (player.position.x <= 0) {
                     player.position.x = 0;
                 }
             }
-            if (IsKeyDown(KEY_D) && player.position.x < screenWidth - 40)
-            {
+            if (IsKeyDown(KEY_D) && player.position.x < screenWidth - 40) {
                 player.position.x += player.speed;
-                if (player.position.x >= screenWidth - 40)
-                {
-
+                if (player.position.x >= screenWidth - 40) {
                     currentMapIndex = 3;
                     player.position.x = 0;
                 }
             }
         }
-        else if (currentMapIndex == 3)
-        {
+        else if (currentMapIndex == 3) {
             // Movement logic for map 3
-            if (IsKeyDown(KEY_W) && player.position.y > 0)
-            {
+            if (IsKeyDown(KEY_W) && player.position.y > 0) {
                 player.position.y -= player.speed;
-                if (player.position.y <= 0)
-                {
+                if (player.position.y <= 0) {
 
                     player.position.y = 0;
                 }
             }
-            if (IsKeyDown(KEY_S) && player.position.y < screenHeight - 40)
-            {
+            if (IsKeyDown(KEY_S) && player.position.y < screenHeight - 40) {
                 player.position.y += player.speed;
-                if (player.position.y >= screenHeight - 40)
-                {
+                if (player.position.y >= screenHeight - 40) {
 
                     currentMapIndex = 1;
                     player.position.y = 0;
                 }
             }
-            if (IsKeyDown(KEY_A) && player.position.x > 0)
-            {
+            if (IsKeyDown(KEY_A) && player.position.x > 0) {
                 player.position.x -= player.speed;
-                if (player.position.x <= 0)
-                {
+                if (player.position.x <= 0) {
 
                     currentMapIndex = 2;
                     player.position.x = screenWidth - 40;
                 }
             }
-            if (IsKeyDown(KEY_D) && player.position.x < screenWidth - 40)
-            {
+            if (IsKeyDown(KEY_D) && player.position.x < screenWidth - 40) {
                 player.position.x += player.speed;
-                if (player.position.x >= screenWidth - 40)
-                {
+                if (player.position.x >= screenWidth - 40) {
 
                     player.position.x = screenWidth - 40;
                 }
             }
             // Additional conditions for map 3
-            if (player.position.y <= 0 && player.position.x >= screenWidth - 40)
-            {
+            if (player.position.y <= 0 && player.position.x >= screenWidth - 40) {
 
                 player.position.y = 0;
                 player.position.x = screenWidth - 40;
             }
         }
-        for (int i = 0; i < 4; i++)
-        {
+        for (int i = 0; i < 4; i++) {
             Rectangle chestBounds = {
                 maps[currentMapIndex].chest.position.x,
                 maps[currentMapIndex].chest.position.y,
                 maps[currentMapIndex].chest.texture.width,
                 maps[currentMapIndex].chest.texture.height};
 
-            if (CheckCollisionRecs(player.bounds, chestBounds))
-            {
-                if (player.position.x < maps[currentMapIndex].chest.position.x)
-                {
+            if (CheckCollisionRecs(player.bounds, chestBounds)) {
+                if (player.position.x < maps[currentMapIndex].chest.position.x) {
                     player.position.x -= player.speed;
                 }
-                else
-                {
+                else {
                     player.position.x += player.speed;
                 }
 
-                if (player.position.y < maps[currentMapIndex].chest.position.y)
-                {
+                if (player.position.y < maps[currentMapIndex].chest.position.y) {
                     player.position.y -= player.speed;
                 }
-                else
-                {
+                else {
                     player.position.y += player.speed;
                 }
             }
@@ -317,17 +272,18 @@ void InitGameWindow()
             maps[currentMapIndex].chest.texture.width,
             maps[currentMapIndex].chest.texture.height};
 
-        if (CheckCollisionRecs(player.bounds, fortressBounds))
-        {
+        if (CheckCollisionRecs(player.bounds, fortressBounds)) {
             Vector2 vectorToFortress = Vector2Subtract(maps[currentMapIndex].chest.position, player.position);
             vectorToFortress = Vector2Normalize(vectorToFortress);
             player.position = Vector2Add(player.position, Vector2Scale(vectorToFortress, player.speed));
         }
-        for (int i = 0; i < 3; i++)
-        {
+        if (CheckCollisionPointRec(GetMousePosition(), exitButton) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+            exitButtonClicked = true;
+            break; // Exit the game loop to close the program
+        }
+        for (int i = 0; i < 3; i++) {
             Object currentObject;
-            switch (i)
-            {
+            switch (i) {
             case 0:
                 currentObject = maps[currentMapIndex].object1;
                 break;
@@ -340,67 +296,53 @@ void InitGameWindow()
             default:
                 break;
             }
-            if (currentObject.active)
-            {
+            if (currentObject.active) {
                 Rectangle objectBounds = {
                     currentObject.position.x,
                     currentObject.position.y,
                     currentObject.texture.width,
                     currentObject.texture.height};
 
-                if (CheckCollisionRecs(player.bounds, objectBounds))
-                {
-                    if (player.position.x < currentObject.position.x)
-                    {
+                if (CheckCollisionRecs(player.bounds, objectBounds)) {
+                    if (player.position.x < currentObject.position.x) {
                         player.position.x -= player.speed;
                     }
-                    else
-                    {
+                    else {
                         player.position.x += player.speed;
                     }
 
-                    if (player.position.y < currentObject.position.y)
-                    {
+                    if (player.position.y < currentObject.position.y) {
                         player.position.y -= player.speed;
                     }
-                    else
-                    {
+                    else {
                         player.position.y += player.speed;
                     }
                 }
             }
         }
         // Inside the main game loop, after checking collisions with other objects
-        if (maps[currentMapIndex].additionalObject.active)
-        {
+        if (maps[currentMapIndex].additionalObject.active) {
             Rectangle additionalObjectBounds = {
                 maps[currentMapIndex].additionalObject.position.x,
                 maps[currentMapIndex].additionalObject.position.y,
                 maps[currentMapIndex].additionalObject.texture.width,
                 maps[currentMapIndex].additionalObject.texture.height};
 
-            if (CheckCollisionRecs(player.bounds, additionalObjectBounds))
-            {
-                if (player.position.x < maps[currentMapIndex].additionalObject.position.x)
-                {
+            if (CheckCollisionRecs(player.bounds, additionalObjectBounds)) {
+                if (player.position.x < maps[currentMapIndex].additionalObject.position.x) {
                     player.position.x -= player.speed;
                 }
-                else
-                {
+                else {
                     player.position.x += player.speed;
                 }
-
-                if (player.position.y < maps[currentMapIndex].additionalObject.position.y)
-                {
+                if (player.position.y < maps[currentMapIndex].additionalObject.position.y) {
                     player.position.y -= player.speed;
                 }
-                else
-                {
+                else {
                     player.position.y += player.speed;
                 }
             }
         }
-
         // Draw
         BeginDrawing();
         ClearBackground(RAYWHITE);
@@ -409,30 +351,24 @@ void InitGameWindow()
         DrawTexture(maps[currentMapIndex].background, 0, 0, WHITE);
 
         // Draw chests
-        if (maps[currentMapIndex].chest.active)
-        {
+        if (maps[currentMapIndex].chest.active) {
             DrawTexture(maps[currentMapIndex].chest.texture, maps[currentMapIndex].chest.position.x, maps[currentMapIndex].chest.position.y, WHITE);
         }
-        if (maps[currentMapIndex].object1.active)
-        {
+        if (maps[currentMapIndex].object1.active) {
             DrawTexture(maps[currentMapIndex].object1.texture, maps[currentMapIndex].object1.position.x, maps[currentMapIndex].object1.position.y, WHITE);
         }
-        if (maps[currentMapIndex].object2.active)
-        {
+        if (maps[currentMapIndex].object2.active) {
             DrawTexture(maps[currentMapIndex].object2.texture, maps[currentMapIndex].object2.position.x, maps[currentMapIndex].object2.position.y, WHITE);
         }
-        if (maps[currentMapIndex].object3.active)
-        {
+        if (maps[currentMapIndex].object3.active) {
             DrawTexture(maps[currentMapIndex].object3.texture, maps[currentMapIndex].object3.position.x, maps[currentMapIndex].object3.position.y, WHITE);
         }
-        if (maps[currentMapIndex].additionalObject.active)
-        {
+        if (maps[currentMapIndex].additionalObject.active) {
             DrawTexture(maps[currentMapIndex].additionalObject.texture, maps[currentMapIndex].additionalObject.position.x, maps[currentMapIndex].additionalObject.position.y, WHITE);
         }
-
         // Draw character
         DrawRectangle(player.position.x, player.position.y, 40, 40, player.color);
-
+        DrawExitButton(exitButton, exitButtonClicked);
         EndDrawing();
     }
     UnloadTexture(chestTexture);

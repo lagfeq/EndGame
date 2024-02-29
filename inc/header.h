@@ -15,7 +15,7 @@ void InitGameWindow();
 void DrawCloseButton(Rectangle closeButtonRect, bool closeButtonClicked);
 char** TextWrap(const char* text, Font font, int fontSize, int maxWidth);
 void DrawWrappedText(const char* text, int x, int y, int fontSize, int maxWidth, Color color);
-void DrawMenuButton();
+void DrawExitButton(Rectangle exitButton, bool exitButtonClicked);
 
 #endif 
 
