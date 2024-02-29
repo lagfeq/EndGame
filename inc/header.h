@@ -10,7 +10,6 @@
 #include <string.h>
 #include <stdio.h>
 
-
 void InitGameWindow();
 void DrawCloseButton(Rectangle closeButtonRect, bool closeButtonClicked);
 char** TextWrap(const char* text, Font font, int fontSize, int maxWidth);
