@@ -7,7 +7,7 @@ int main() {
     Color customColor = {27, 35, 23, 255};
 
     InitAudioDevice();
-    InitWindow(screenWidth, screenHeight, "Game");
+    InitWindow(screenWidth, screenHeight, "Quest for the Royal Key: A Knight's Puzzle Adventure");
 
     Texture2D background = LoadTexture("sources/menuWindow/2024-02-25 18.51.31.png");
 
@@ -22,7 +22,6 @@ int main() {
     Rectangle closeButtonTable = {screenWidth - 150, 110, 30, 40};
     Rectangle infoButton = {screenWidth - 80, 10, 40, 40};
     Rectangle soundButton = {screenWidth - 90 - 40, 10, 40, 40};
-
 
     // Flags to track button states
     bool playButtonClicked = false;
@@ -66,45 +65,34 @@ int main() {
     SetTargetFPS(60);
 
     // Main game loop
-    while (!WindowShouldClose())
-    {
+    while (!WindowShouldClose()) {
         Vector2 mousePoint = GetMousePosition();
 
-        if (CheckCollisionPointRec(mousePoint, playButton))
-        {
-            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-            {
+        if (CheckCollisionPointRec(mousePoint, playButton)) {
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
                 // Open the new game window when 'Play' is clicked
                 CloseWindow();
                 InitGameWindow();
             }
         }
-        else if (CheckCollisionPointRec(mousePoint, exitButton))
-        {
-            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-            {
+        else if (CheckCollisionPointRec(mousePoint, exitButton)) {
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
                 CloseWindow();
             }
         }
 
         // Check button click events
-        if (CheckCollisionPointRec(mousePoint, soundButton) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-        {
+        if (CheckCollisionPointRec(mousePoint, soundButton) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             soundButtonClicked = !soundButtonClicked;
-
-            if (soundButtonClicked)
-            {
-                if (GetMusicTimePlayed(backgroundMusic) > 0)
-                {
+            if (soundButtonClicked) {
+                if (GetMusicTimePlayed(backgroundMusic) > 0) {
                     ResumeMusicStream(backgroundMusic);
                 }
-                else
-                {
+                else {
                     PlayMusicStream(backgroundMusic);
                 }
             }
-            else
-            {
+            else {
                 StopMusicStream(backgroundMusic);
             }
         }
@@ -113,45 +101,36 @@ int main() {
         UpdateMusicStream(backgroundMusic);
 
         // Check button click events for 'How to Play' and 'i' buttons
-        if (CheckCollisionPointRec(mousePoint, howToPlayButton) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-        {
+        if (CheckCollisionPointRec(mousePoint, howToPlayButton) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             howToPlayButtonClicked = IsMusicStreamPlaying(backgroundMusic);
             howToPlayButtonClicked = !howToPlayButtonClicked;
             howToPlayTableVisible = !howToPlayTableVisible;
         }
 
-        if (CheckCollisionPointRec(mousePoint, infoButton) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-        {
+        if (CheckCollisionPointRec(mousePoint, infoButton) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             infoButtonClicked = !infoButtonClicked;
             infoTableVisible = !infoTableVisible;
         }
 
         // Check button click events
-        if (CheckCollisionPointRec(mousePoint, playButton))
-        {
-            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-            {
+        if (CheckCollisionPointRec(mousePoint, playButton)) {
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
                 playButtonClicked = !playButtonClicked;
             }
         }
-        else if (CheckCollisionPointRec(mousePoint, exitButton))
-        {
-            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-            {
+        else if (CheckCollisionPointRec(mousePoint, exitButton)) {
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
                 CloseWindow();
             }
         }
-        else if (CheckCollisionPointRec(mousePoint, closeButtonTable) && (howToPlayTableVisible || infoTableVisible))
-        {
-            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-            {
+        else if (CheckCollisionPointRec(mousePoint, closeButtonTable) && (howToPlayTableVisible || infoTableVisible)) {
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
                 closeButtonTableClicked = true;
             }
         }
 
         // Update table visibility
-        if (closeButtonTableClicked)
-        {
+        if (closeButtonTableClicked) {
             howToPlayTableVisible = false;
             infoTableVisible = false;
             closeButtonTableClicked = false; 
@@ -166,8 +145,11 @@ int main() {
         DrawTexture(background, 0, 0, WHITE);
 
         // Draw title with the loaded font
-        DrawTextEx(gameFont, "Game", (Vector2){screenWidth / 2 - MeasureTextEx(gameFont, "Game", 80, 0).x / 2, 50},
-                   80, 0, customColor);
+        DrawTextEx(gameFont, "Quest for the Royal Key:", (Vector2){screenWidth / 3 - MeasureTextEx(gameFont, "Game", 20, 0).x / 2, 50},
+                   40, 0, customColor);
+        DrawTextEx(gameFont, "A Knight's Puzzle Adventure", (Vector2){screenWidth / 3 - MeasureTextEx(gameFont, "Game", 20, 0).x / 2, 100},
+                   40, 0, customColor);
+
 
         // Draw buttons with hover and click effects
         DrawRectangleRounded(playButton, 0.2, 0, (playButtonClicked) ? GRAY : CheckCollisionPointRec(mousePoint, playButton) ? DARKGRAY : WHITE);
@@ -201,12 +183,10 @@ int main() {
                     infoButton.y + (infoButton.height - infoTexture.height) / 2, WHITE);
 
         // Draw sound button icons
-        if (IsMusicStreamPlaying(backgroundMusic))
-        {
+        if (IsMusicStreamPlaying(backgroundMusic)) {
             DrawTexture(soundOnTexture, soundButton.x + (soundButton.width - soundOnTexture.width) / 2, soundButton.y + (soundButton.height - soundOnTexture.height) / 2, WHITE);
         }
-        else
-        {
+        else {
             DrawTexture(soundOffTexture, soundButton.x + (soundButton.width - soundOffTexture.width) / 2, soundButton.y + (soundButton.height - soundOffTexture.height) / 2, WHITE);
         }
         // Draw pop-up tables
@@ -239,7 +219,6 @@ int main() {
             DrawText(textLines[i], startXImages + indentation, 300 + (imageHeight + spacing) * i, 18, WHITE);
             }
         }   
-
         if (infoTableVisible) {
             DrawRectangle(100, 100, screenWidth - 200, screenHeight - 200, customColor);
 
@@ -251,25 +230,21 @@ int main() {
             int titleWidth = MeasureText(infoTitle, 20);
             int titleX = 120 + (screenWidth - 200 - titleWidth) / 2;
             DrawText(infoTitle, titleX, 120, 20, WHITE);
-
             const char *infoLines[] = {
-                "0",
-                "1",
-                "2",
-                "3",
+                "Lyubava Kharenko - 223a.e.",
+                "Koliesnikova Marianna - 1223a",
+                "Yuliia Oliinykova - 1223a",
+                "Andrii Pidhornyi, - 923g",
             };
-
             int infoHeight = 20;
             int infoSpacing = 25;
             int startInfoY = 160;
-
             for (int i = 0; i < 4; i++) {
                 DrawText(infoLines[i], 120, startInfoY + (infoHeight + infoSpacing) * i, 20, WHITE);
             }
         }
         EndDrawing();
     }
-
     // Unload sound button textures
     UnloadTexture(soundOnTexture);
     UnloadTexture(soundOffTexture);
