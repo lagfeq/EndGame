@@ -433,8 +433,6 @@ void InitGameWindow()
         // Draw character
         DrawRectangle(player.position.x, player.position.y, 40, 40, player.color);
 
-        DrawMenuButton(screenWidth, &currentMapIndex);
-
         EndDrawing();
     }
     UnloadTexture(chestTexture);
@@ -442,8 +440,7 @@ void InitGameWindow()
     UnloadTexture(objectTexture2);
     UnloadTexture(objectTexture3);
     UnloadTexture(additionalObjectTexture);
-    for (int i = 0; i < 4; i++)
-    {
+    for (int i = 0; i < 4; i++) {
         UnloadTexture(maps[i].background);
     }
     CloseAudioDevice();

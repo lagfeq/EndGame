@@ -1,9 +1,5 @@
 #include "raylib.h"
 #include "header.h"
-typedef enum {
-    MAIN_MENU,
-    GAME,
-} GameState;
 int main() {
     const int screenWidth = 1100;
     const int screenHeight = 800;
