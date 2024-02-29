@@ -83,9 +83,13 @@ void InitGameWindow() {
     GameMap maps[4];
     maps[0].background = LoadTexture("sources/map1.png");
     maps[0].chest = chests[0];
+    maps[0].chest.position.x = screenWidth - 300;
+    maps[0].chest.position.y = 50;
 
     maps[1].background = LoadTexture("sources/map2.png");
     maps[1].chest = chests[1];
+    maps[1].chest.position.x = screenWidth - 300;
+    maps[1].chest.position.y = 50;
 
     maps[2].background = LoadTexture("sources/map3.png");
     maps[2].chest = chests[2];
@@ -94,6 +98,7 @@ void InitGameWindow() {
 
     maps[3].background = LoadTexture("sources/map4.png");
     maps[3].chest = fortress;
+
 
     maps[0].chest.position.y += 20;
     maps[1].chest.position.x = screenWidth / 2 - maps[1].chest.texture.width / 2;
