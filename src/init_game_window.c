@@ -42,24 +42,10 @@ void InitGameWindow() {
 
     static int direction = 0;
     static int frameIndex = 0;
-    Texture2D up1 = LoadTexture("sources/up1.png");
-    Texture2D up2 = LoadTexture("sources/up2.png");
-    Texture2D up3 = LoadTexture("sources/up3.png");
-    Texture2D down1 = LoadTexture("sources/down1.png");
-    Texture2D down2 = LoadTexture("sources/down2.png");
-    Texture2D down3 = LoadTexture("sources/down3.png");
-    Texture2D left1 = LoadTexture("sources/left1.png");
-    Texture2D left2 = LoadTexture("sources/left2.png");
-    Texture2D left3 = LoadTexture("sources/left3.png");
-    Texture2D right1 = LoadTexture("sources/right1.png");
-    Texture2D right2 = LoadTexture("sources/right2.png");
-    Texture2D right3 = LoadTexture("sources/right3.png");
-    Texture2D* upTextures[] = {&up1, &up2, &up3};
-    Texture2D* downTextures[] = {&down1, &down2, &down3};
-    Texture2D* leftTextures[] = {&left1, &left2, &left3};
-    Texture2D* rightTextures[] = {&right1, &right2, &right3};
-    float timer = 0.0f;
-    int currentTexture = 0;
+    Texture2D walkFrames0 = LoadTexture("sources/up.png");
+    Texture2D walkFrames1 = LoadTexture("sources/down.png");
+    Texture2D walkFrames2 = LoadTexture("sources/left.png");
+    Texture2D walkFrames3 = LoadTexture("sources/right.png");
 
     Rectangle exitButton = {screenWidth - 100, 10, 90, 30};
     bool exitButtonClicked = false;
@@ -97,9 +83,13 @@ void InitGameWindow() {
     GameMap maps[4];
     maps[0].background = LoadTexture("sources/map1.png");
     maps[0].chest = chests[0];
+    maps[0].chest.position.x = screenWidth - 300;
+    maps[0].chest.position.y = 50;
 
     maps[1].background = LoadTexture("sources/map2.png");
     maps[1].chest = chests[1];
+    maps[1].chest.position.x = screenWidth - 300;
+    maps[1].chest.position.y = 50;
 
     maps[2].background = LoadTexture("sources/map3.png");
     maps[2].chest = chests[2];
@@ -108,6 +98,7 @@ void InitGameWindow() {
 
     maps[3].background = LoadTexture("sources/map4.png");
     maps[3].chest = fortress;
+
 
     maps[0].chest.position.y += 20;
     maps[1].chest.position.x = screenWidth / 2 - maps[1].chest.texture.width / 2;
@@ -141,8 +132,8 @@ void InitGameWindow() {
 
     // Initialize character
      Character player;
-    player.position = (Vector2){screenWidth / 2, screenHeight / 2}; 
-    player.speed = 5.0f;
+        player.position = (Vector2){screenWidth / 2, screenHeight / 2};
+        player.speed = 5.0f;
 
     SetTargetFPS(60);
 
@@ -150,45 +141,11 @@ void InitGameWindow() {
 
     // Main game loop
     while (!WindowShouldClose()) {
-
        player.bounds = (Rectangle){player.position.x, player.position.y, 40, 40};
-
-       if (IsKeyDown(KEY_W)) {
-        direction = 0;
-       timer += GetFrameTime();
-       if (timer >= 0.1f)
-        {
-            timer = 0.0f;
-            currentTexture = (currentTexture + 1) % 3;
-        }
-       }
-       else if (IsKeyDown(KEY_S)) {
-        direction = 1;
-       timer += GetFrameTime();
-       if (timer >= 0.1f)
-        {
-            timer = 0.0f;
-            currentTexture = (currentTexture + 1) % 3;
-        }
-       }
-       else if (IsKeyDown(KEY_A)) {
-        direction = 2;
-       timer += GetFrameTime();
-       if (timer >= 0.1f)
-        {
-            timer = 0.0f;
-            currentTexture = (currentTexture + 1) % 3;
-        }
-       }
-       else if (IsKeyDown(KEY_D)) {
-       direction = 3;
-       timer += GetFrameTime();
-       if (timer >= 0.1f)
-        {
-            timer = 0.0f;
-            currentTexture = (currentTexture + 1) % 3;
-        }
-       }
+       if (IsKeyDown(KEY_W)) direction = 0;
+       else if (IsKeyDown(KEY_S)) direction = 1;
+       else if (IsKeyDown(KEY_A)) direction = 2;
+       else if (IsKeyDown(KEY_D)) direction = 3;
 
        frameIndex++;
        if (frameIndex >= 4) frameIndex = 0;
@@ -433,36 +390,28 @@ void InitGameWindow() {
         // Draw character
         switch (direction) {
             case 0: // Up
-            DrawTexture(*upTextures[currentTexture], player.position.x, player.position.y, WHITE);
-            
+                DrawTexture(walkFrames0, player.position.x, player.position.y, WHITE);
+                break;
             case 1: // Down
-            DrawTexture(*downTextures[currentTexture], player.position.x, player.position.y, WHITE);
-
+                DrawTexture(walkFrames1, player.position.x, player.position.y, WHITE);
+                break;
             case 2: // Left
-            DrawTexture(*leftTextures[currentTexture], player.position.x, player.position.y, WHITE);
-
+                DrawTexture(walkFrames2, player.position.x, player.position.y, WHITE);
+                break;
             case 3: // Right
-             DrawTexture(*rightTextures[currentTexture], player.position.x, player.position.y, WHITE);
-
+                DrawTexture(walkFrames3, player.position.x, player.position.y, WHITE);
+                break;
             default:
-            break;
+                break;
         }
 
         DrawExitButton(exitButton, exitButtonClicked);
         EndDrawing();
     }
-    UnloadTexture(up1);
-    UnloadTexture(up2);
-    UnloadTexture(up3);
-    UnloadTexture(down1);
-    UnloadTexture(down2);
-    UnloadTexture(down3);
-    UnloadTexture(left1);
-    UnloadTexture(left2);
-    UnloadTexture(left3);
-    UnloadTexture(right1);
-    UnloadTexture(right2);
-    UnloadTexture(right3);
+    UnloadTexture(walkFrames0);
+    UnloadTexture(walkFrames1);
+    UnloadTexture(walkFrames2);
+    UnloadTexture(walkFrames3);
     UnloadTexture(chestTexture);
     UnloadTexture(objectTexture1);
     UnloadTexture(objectTexture2);
